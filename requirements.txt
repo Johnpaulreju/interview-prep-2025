@@ -1,0 +1,35 @@
+# ─── Core math / DS ─────────────────────────
+numpy>=1.26
+pandas>=2.2
+scipy>=1.12
+
+# ─── Classical ML ───────────────────────────
+scikit-learn>=1.5
+
+# ─── Deep Learning ──────────────────────────
+torch>=2.2
+torchvision>=0.18
+torchaudio>=2.2
+matplotlib>=3.9
+seaborn>=0.13
+
+# ─── NLP / LLM ──────────────────────────────
+transformers>=4.43
+sentencepiece>=0.2
+datasets>=2.19
+langchain>=0.2
+faiss-cpu>=1.8.0           # swap for faiss-gpu if CUDA images
+
+# ─── Audio / Voice ──────────────────────────
+librosa>=0.10
+webrtcvad>=2.0.10
+
+# ─── Serving / MLOps ────────────────────────
+fastapi>=0.111
+uvicorn[standard]>=0.30
+pydantic>=2.8
+tritonclient[http]>=2.42
+
+# ─── Misc utils ─────────────────────────────
+tqdm
+rich

@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: ⬇️  Checkout repo
+        uses: actions/checkout@v4
+
+      - name: 🐍  Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: 📦  Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          # dev / lint deps
+          pip install pytest nbval ruff
+
+      - name: ✅  Run unit tests
+        run: pytest -q --cov=src --cov-report=xml
+
+      - name: 📓  Execute notebooks (nbval)
+        run: |
+          # will error if any notebook cell errors or a checksum mismatch
+          pytest --nbval-lax notebooks/
+
+      - name: 🎨  Run Ruff (linter/formatter)
+        run: ruff src tests notebooks --output-format=github
+
+      - name: ⬆️  Upload coverage to Codecov  # optional
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          fail_ci_if_error: false
